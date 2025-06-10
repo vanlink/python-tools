@@ -3,7 +3,19 @@ import piexif
 from datetime import datetime
 from PIL import Image
 
-ROOT = "E:\\incoming\\done1\\"
+ROOT = "R:\\picture"
+
+SKIPS = [
+    "2011-06-04",
+    "2011-10-08",
+    "2011-10-16"
+]
+
+def is_skip(name):
+    for i in SKIPS:
+        if i in name:
+            return True
+    return False
 
 def get_photo_taken_time(file_path):
     try:
@@ -80,7 +92,7 @@ for item in os.scandir(ROOT):
         dirtime += " 12:00:00"
         dirtime2 = dirtime.replace("-", ":")
         dirts = convert_to_timestamp(dirtime)
-        # print("doing ... {} {} {}".format(dirname, dirtime, dirts))
+        print("doing {}".format(dirname))
         for root, dirname, files in os.walk(os.path.join(ROOT, item.name)):
             for f in files:
                 pathall = os.path.join(root, f)
@@ -90,13 +102,13 @@ for item in os.scandir(ROOT):
                         filets = convert_to_timestamp(str(tt))
                         diff = abs(int(filets) - int(dirts))
                         if diff > 24 * 3600 * 64:
-                            print("{} TIME {} DIR {} DIFF {} days".format(pathall, tt, dirtime2, int(diff / 3600 / 24)))
+                            print("{} TIME {} DIFF {} days".format(f, tt, int(diff / 3600 / 24)))
                             # update_exif_datetime(pathall, dirtime2)
                     else:
                         print("{} TIME NOT FOUND".format(pathall))
                         # update_exif_datetime(pathall, dirtime2)
                 else:
-                    pass
-                    # print("NOT picture {}".format(pathall))
+                    continue
+                    print("NOT picture {}".format(pathall))
 
 print("--- done ---")
