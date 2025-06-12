@@ -3,7 +3,7 @@ import piexif
 from datetime import datetime
 from PIL import Image
 
-ROOT = "R:\\picture"
+ROOT = "/host/picture"
 
 SKIPS = [
     "2011-06-04",
@@ -102,13 +102,12 @@ for item in os.scandir(ROOT):
                         filets = convert_to_timestamp(str(tt))
                         diff = abs(int(filets) - int(dirts))
                         if diff > 24 * 3600 * 64:
-                            print("{} TIME {} DIFF {} days".format(f, tt, int(diff / 3600 / 24)))
+                            print("{} TIME {} DIFF {} days".format(pathall, tt, int(diff / 3600 / 24)))
                             # update_exif_datetime(pathall, dirtime2)
                     else:
                         print("{} TIME NOT FOUND".format(pathall))
                         # update_exif_datetime(pathall, dirtime2)
                 else:
-                    continue
                     print("NOT picture {}".format(pathall))
 
 print("--- done ---")
